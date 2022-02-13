@@ -5,6 +5,3 @@ CREATE TABLE "tasks" (
   	"completed" BOOLEAN DEFAULT FALSE
 );
 
-INSERT INTO "tasks"
-	("todo", "notes")
-VALUES ('complete weekend challenge', 'remember to commit often')

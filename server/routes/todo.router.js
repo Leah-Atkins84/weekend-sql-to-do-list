@@ -7,7 +7,7 @@ const pool = require('../public/modules/pool');
 router.get('/', (req, res) =>{
     console.log('get hit');
     //get all rows from table
-    let queryString = 'SELECT FROM * tasks';
+    let queryString = 'SELECT * FROM "tasks"';
     pool.query( queryString)
     .then((results)=>{
         //send back to client

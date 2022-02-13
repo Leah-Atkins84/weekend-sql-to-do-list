@@ -8,6 +8,7 @@ function readyNow() {
     console.log( 'jquery ready' );
     // add todo button
     $('#add-button').on('click', addToDo); 
+    getTasks();
 // delete button
 // task completed button  
     
@@ -25,16 +26,15 @@ function addToDo() {
     //send to server
     $.ajax({
         type: 'POST',
-        url: '/todo',
+        url: '/tasks',
         data: objectToSend
     }).then(function (response) {
         console.log('back from post with:', response);
+        getTasks();
     }).catch(function (err) {
         alert( 'error adding todo')
         console.log(err);
     })
-
-
 }// End addToDo
 
 
@@ -49,8 +49,21 @@ function addToDo() {
 
 
 
-// --function refresh tasks-- ajax/get
+// --function get tasks-- ajax/get
 // refresh will get all tasks from the server and render to the page
+function getTasks() {
+    // ajax get call to server
+    $.ajax({
+        type: 'GET',
+        url: '/tasks',
+    }).then(function (response) {
+        console.log('back from GET',response);
+    }).catch(function (err) {
+        console.log(err);
+        alert('error getting tasks, see console for details');
+    })// end ajax
+    
+}// end get tasks
 
 
 
