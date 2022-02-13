@@ -69,7 +69,7 @@ function renderTasks(taskList) {
             <tr class= "completed-task" data-id=${task.id}>
                 <td>${task.todo}</td>
                 <td>${task.notes}</td>
-                <td >Completed!</td>
+                <td >🌈 Completed! 🦄</td>
                 <td>
                     <button class="btn-delete">Delete</button>
                 </td>
