@@ -2,8 +2,6 @@
 console.log('JS');
 $(document).ready(readyNow);
 
-
-
 //----------add click handlers---------
 function readyNow() {
     console.log( 'jquery ready' );
@@ -11,10 +9,9 @@ function readyNow() {
     // add todo button
     $('#add-button').on('click', addToDo); 
     // task completed button  
-    $('#taskOut').on('click', '#btn-comp', taskCompleted)
+    $('#taskOut').on('click', '.btn-comp', taskCompleted)
     // delete button
-
-    
+    $('#taskOut').on('click', '.btn-delete', deleteTasks)
 }// end readyNow
 
 // ----add todo -----
@@ -67,10 +64,10 @@ function renderTasks(taskList) {
             `)
       } else if(task.completed === true){
             $('#taskOut').append(`
-            <tr class= "completed-task" data-id=${task.id}>
+            <tr data-id=${task.id}>
                 <td>${task.todo}</td>
                 <td>${task.notes}</td>
-                <td>Completed!</td>
+                <td class= "completed-task">Completed!</td>
                 <td>
                     <button class="btn-delete">Delete</button>
                 </td>
@@ -109,7 +106,7 @@ function taskCompleted() {
         type: 'PUT',
         url: `/tasks/${ id }`
     }).then(function (response) {
-        console.log('client put working', response);
+        console.log('tasks completing', response);
         getTasks();
     }).catch(function (err) {
         alert('put issue')
@@ -119,4 +116,19 @@ function taskCompleted() {
 
 
 //-----function-Delete tasks---ajax/delete----
-
+function deleteTasks() {
+    console.log('clicked delete');
+    let id = $(this).closest('tr').data().id;
+    $.ajax({
+      method: 'DELETE',
+      url: `/tasks/${id}`
+    })
+    .then(function (response) {
+      console.log('Deleted it', response);
+      getTasks();
+    }).catch(function (error) {
+      console.log('Error deleting', error);
+      
+    })
+  
+  }
