@@ -14,7 +14,7 @@ router.get('/', (req, res) =>{
         //send back to client
         res.send(results.rows);
     }).catch((err)=>{
-        res.sendStatus(400);
+        res.sendStatus(500);
     })//end select
     
 })// end get
@@ -30,7 +30,7 @@ router.post('/', (req, res) =>{
     `;
     //RUN QUERY
     pool.query(queryString, [ req.body.todo, req.body.notes])
-    .then((result)=>{
+    .then((results)=>{
         res.sendStatus(201);
     }).catch((err)=>{
         console.log('error saving todo', err);

@@ -44,28 +44,41 @@ function addToDo() {
 
 // ---------function-renderTasks--------------
 // display array of tasks to the dom
-// for each task add a new row to table
 function renderTasks(taskList) {
-    let el =$('#taskOut');
-    el.empty();
+    //let el =$('#taskOut');
+    $('#taskOut').empty();
     for (let i=0; i<taskList.length; i++){
         let task= taskList[i];
+        if (task.completed === false){
         //for each todo, append a new row to table
-        el.append(`
-        <tr data-id=${task.id}>
-            <td>${task.todo}</td>
-            <td>${task.notes}</td>
-            <td>${task.completed}
-          <button class="btn-comp" data-id=${task.id}>Completed</button>
-        </td>
-        <td>
-          <button class="btn-delete" data-id=${task.id}>Delete</button>
-        <td>
-      </tr>
-        `)
+            $('#taskOut').append(`
+            <tr data-id=${task.id}>
+                <td>${task.todo}</td>
+                <td>${task.notes}</td>
+                <td>${task.completed}</td>
+                <td>Not Complete</td>
+                <td>
+                    <button class="btn-comp">Completed</button>
+                </td>
+                <td>
+                    <button class="btn-delete">Delete</button>
+                </td>
+            </tr>
+            `)
+      } else if(task.completed === true){
+            $('#taskOut').append(`
+            <tr class= "completed-task" data-id=${task.id}>
+                <td>${task.todo}</td>
+                <td>${task.notes}</td>
+                <td>Completed!</td>
+                <td>
+                <button class="btn-delete">Delete</button>
+                </td>
+            </tr>
+            `)
+      }
     }
-    
-}
+}// end renderTasks
 
 
 
@@ -76,7 +89,7 @@ function getTasks() {
     // ajax get call to server
     $.ajax({
         type: 'GET',
-        url: '/tasks',
+        url: '/tasks'
     }).then(function (response) {
         console.log('back from GET',response);
         renderTasks(response);
