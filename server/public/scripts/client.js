@@ -1,3 +1,4 @@
+
 console.log('JS');
 $(document).ready(readyNow);
 
@@ -44,7 +45,27 @@ function addToDo() {
 // ---------function-renderTasks--------------
 // display array of tasks to the dom
 // for each task add a new row to table
-
+function renderTasks(taskList) {
+    let el =$('#taskOut');
+    el.empty();
+    for (let i=0; i<taskList.length; i++){
+        let task= taskList[i];
+        //for each todo, append a new row to table
+        el.append(`
+        <tr data-id=${task.id}>
+            <td>${task.todo}</td>
+            <td>${task.notes}</td>
+            <td>${task.completed}
+          <button class="btn-comp" data-id=${task.id}>Completed</button>
+        </td>
+        <td>
+          <button class="btn-delete" data-id=${task.id}>Delete</button>
+        <td>
+      </tr>
+        `)
+    }
+    
+}
 
 
 
@@ -58,6 +79,7 @@ function getTasks() {
         url: '/tasks',
     }).then(function (response) {
         console.log('back from GET',response);
+        renderTasks(response);
     }).catch(function (err) {
         console.log(err);
         alert('error getting tasks, see console for details');

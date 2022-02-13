@@ -7,9 +7,10 @@ const pool = require('../public/modules/pool');
 router.get('/', (req, res) =>{
     console.log('get hit');
     //get all rows from table
-    let queryString = 'SELECT * FROM "tasks"';
+    let queryString = 'SELECT * FROM "tasks" ORDER BY "id";';
     pool.query( queryString)
     .then((results)=>{
+        console.log('getting worked!');
         //send back to client
         res.send(results.rows);
     }).catch((err)=>{
@@ -23,14 +24,17 @@ router.get('/', (req, res) =>{
 router.post('/', (req, res) =>{
     console.log('post hit', req.body);
     // set up querystring
-    let queryString = 'INSERT INTO tasks (todo, notes) VALUES ($1, $2)';
+    let queryString = `
+    INSERT INTO "tasks" ("todo", "notes")
+    VALUES ($1, $2);
+    `;
     //RUN QUERY
     pool.query(queryString, [ req.body.todo, req.body.notes])
     .then((result)=>{
         res.sendStatus(201);
     }).catch((err)=>{
         console.log('error saving todo', err);
-        res.sendStatus(400);
+        res.sendStatus(500);
     })
 })// end post
 
