@@ -35,6 +35,8 @@ function addToDo() {
         alert( 'error adding todo')
         console.log(err);
     })
+    $( '#todo-item' ).val('');
+    $( '#notes' ).val('');
 }// End addToDo
 
 
@@ -64,10 +66,10 @@ function renderTasks(taskList) {
             `)
       } else if(task.completed === true){
             $('#taskOut').append(`
-            <tr data-id=${task.id}>
+            <tr class= "completed-task" data-id=${task.id}>
                 <td>${task.todo}</td>
                 <td>${task.notes}</td>
-                <td class= "completed-task">Completed!</td>
+                <td >Completed!</td>
                 <td>
                     <button class="btn-delete">Delete</button>
                 </td>
