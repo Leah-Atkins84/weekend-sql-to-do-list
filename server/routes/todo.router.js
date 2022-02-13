@@ -6,14 +6,32 @@ const pool = require('../public/modules/pool');
 // ------GET --getting data from the database-----
 router.get('/', (req, res) =>{
     console.log('get hit');
-    res.send('bark');
+    //get all rows from table
+    let queryString = 'SELECT FROM * tasks';
+    pool.query( queryString)
+    .then((results)=>{
+        //send back to client
+        res.send(results.rows);
+    }).catch((err)=>{
+        res.sendStatus(400);
+    })//end select
+    
 })// end get
 
 
 // -----------POST-- adding to the database----------
 router.post('/', (req, res) =>{
     console.log('post hit', req.body);
-    res.send('meow');
+    // set up querystring
+    let queryString = 'INSERT INTO tasks (todo, notes) VALUES ($1, $2)';
+    //RUN QUERY
+    pool.query(queryString, [ req.body.todo, req.body.notes])
+    .then((result)=>{
+        res.sendStatus(201);
+    }).catch((err)=>{
+        console.log('error saving todo', err);
+        res.sendStatus(400);
+    })
 })// end post
 
 
