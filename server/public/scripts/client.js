@@ -7,11 +7,13 @@ $(document).ready(readyNow);
 //----------add click handlers---------
 function readyNow() {
     console.log( 'jquery ready' );
+    getTasks();
     // add todo button
     $('#add-button').on('click', addToDo); 
-    getTasks();
-// delete button
-// task completed button  
+    // task completed button  
+    $('#taskOut').on('click', '#btn-comp', taskCompleted)
+    // delete button
+
     
 }// end readyNow
 
@@ -55,10 +57,8 @@ function renderTasks(taskList) {
             <tr data-id=${task.id}>
                 <td>${task.todo}</td>
                 <td>${task.notes}</td>
-                <td>${task.completed}</td>
-                <td>Not Complete</td>
-                <td>
-                    <button class="btn-comp">Completed</button>
+                <td>Not Complete
+                    <button class="btn-comp">Complete</button>
                 </td>
                 <td>
                     <button class="btn-delete">Delete</button>
@@ -72,7 +72,7 @@ function renderTasks(taskList) {
                 <td>${task.notes}</td>
                 <td>Completed!</td>
                 <td>
-                <button class="btn-delete">Delete</button>
+                    <button class="btn-delete">Delete</button>
                 </td>
             </tr>
             `)
@@ -100,8 +100,23 @@ function getTasks() {
     
 }// end get tasks
 
+// ----function-task completed-- ajax/put
+function taskCompleted() {
+    console.log('In taskCompleted');
+    let id = $(this).closest('tr').data().id
+    console.log(id);
+    $.ajax({
+        type: 'PUT',
+        url: `/tasks/${ id }`
+    }).then(function (response) {
+        console.log('client put working', response);
+        getTasks();
+    }).catch(function (err) {
+        alert('put issue')
+        console.log(err);
+    })
+}
 
 
 //-----function-Delete tasks---ajax/delete----
 
-// ----function-task completed-- ajax/put

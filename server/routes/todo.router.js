@@ -40,7 +40,22 @@ router.post('/', (req, res) =>{
 
 
 //------ PUT-- marking tasks as completed-------------
-
+router.put('/:id', (req, res) => {
+    console.log('in put', req.params);
+    let query = `
+        UPDATE "tasks" 
+        SET  "completed" = true
+        WHERE "id" = $1; `
+    pool.query(query,[req.params.id] )
+    .then(results =>{
+        console.log('put router working');
+        res.sendStatus(201);
+    }).catch(err =>{
+        console.log('error in router put', err);
+        res.sendStatus(500);
+    })
+  
+  })
 
 
 
